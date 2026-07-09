@@ -1,5 +1,9 @@
 # kelly-lab
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
+[![GitHub stars](https://img.shields.io/github/stars/tapheret2/kelly-lab?style=social)](https://github.com/tapheret2/kelly-lab/stargazers)
+
 ![status](https://img.shields.io/badge/status-active-brightgreen) ![python](https://img.shields.io/badge/python-3.10%2B-blue) ![license](https://img.shields.io/badge/license-MIT-lightgrey)
 
 Educational **Kelly criterion** toolkit: fraction sizing, growth rate, and Monte Carlo bankroll paths.
@@ -38,3 +42,4 @@ path = simulate_bankroll(p=0.55, b=1.0, f=0.5 * f, bankroll=1000, n=200, seed=0)
 ## Why this exists
 
 Portfolio piece for DS students bridging probability, EV, and risk of ruin — pairs well with `brier-lab` and tip ledgers.
+
