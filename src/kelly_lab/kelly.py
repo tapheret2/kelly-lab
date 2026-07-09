@@ -82,3 +82,8 @@ def simulate_bankroll(
 def half_kelly(p: float, b: float) -> float:
     """Convenience: 0.5 × full Kelly fraction."""
     return 0.5 * kelly_fraction(p, b)
+
+
+def quarter_kelly(p: float, b: float) -> float:
+    """Conservative 0.25 × full Kelly fraction."""
+    return 0.25 * kelly_fraction(p, b)
