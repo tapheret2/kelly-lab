@@ -1,0 +1,79 @@
+"""Kelly criterion math — educational implementation."""
+
+from __future__ import annotations
+
+import math
+import random
+from dataclasses import dataclass
+
+
+def kelly_fraction(p: float, b: float) -> float:
+    """Full Kelly fraction for a binary even-money-style bet.
+
+    Args:
+        p: Probability of winning in (0, 1).
+        b: Net decimal odds (decimal_odds - 1). Profit per unit stake if win.
+    """
+    if not 0.0 < p < 1.0:
+        raise ValueError("p must be in (0, 1)")
+    if b <= 0:
+        raise ValueError("b (net odds) must be > 0")
+    q = 1.0 - p
+    f = (p * b - q) / b
+    return max(0.0, f)
+
+
+def expected_log_growth(p: float, b: float, f: float) -> float:
+    """E[log growth] for fraction f of bankroll each bet."""
+    if f < 0 or f >= 1:
+        raise ValueError("f must be in [0, 1)")
+    if f == 0:
+        return 0.0
+    q = 1.0 - p
+    return p * math.log(1 + f * b) + q * math.log(1 - f)
+
+
+@dataclass
+class SimResult:
+    final: float
+    path: list[float]
+    max_drawdown: float
+    peak: float
+
+
+def simulate_bankroll(
+    p: float,
+    b: float,
+    f: float,
+    bankroll: float = 1000.0,
+    n: int = 100,
+    seed: int | None = None,
+) -> SimResult:
+    """Monte Carlo path of bankroll under repeated independent bets."""
+    if bankroll <= 0:
+        raise ValueError("bankroll must be > 0")
+    if n < 1:
+        raise ValueError("n must be >= 1")
+    if f < 0 or f >= 1:
+        raise ValueError("f must be in [0, 1)")
+
+    rng = random.Random(seed)
+    path = [bankroll]
+    peak = bankroll
+    max_dd = 0.0
+    br = bankroll
+    for _ in range(n):
+        stake = br * f
+        if rng.random() < p:
+            br = br + stake * b
+        else:
+            br = br - stake
+        if br <= 0:
+            br = 0.0
+            path.append(br)
+            break
+        path.append(br)
+        peak = max(peak, br)
+        dd = (peak - br) / peak if peak > 0 else 0.0
+        max_dd = max(max_dd, dd)
+    return SimResult(final=br, path=path, max_drawdown=max_dd, peak=peak)
