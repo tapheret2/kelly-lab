@@ -77,3 +77,8 @@ def simulate_bankroll(
         dd = (peak - br) / peak if peak > 0 else 0.0
         max_dd = max(max_dd, dd)
     return SimResult(final=br, path=path, max_drawdown=max_dd, peak=peak)
+
+
+def half_kelly(p: float, b: float) -> float:
+    """Convenience: 0.5 × full Kelly fraction."""
+    return 0.5 * kelly_fraction(p, b)
