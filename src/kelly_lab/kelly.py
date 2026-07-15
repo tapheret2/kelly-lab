@@ -79,6 +79,33 @@ def simulate_bankroll(
     return SimResult(final=br, path=path, max_drawdown=max_dd, peak=peak)
 
 
+def ruin_probability(
+    p: float,
+    b: float,
+    f: float,
+    bankroll: float = 1000.0,
+    n: int = 100,
+    trials: int = 500,
+    ruin_threshold: float = 0.0,
+    seed: int | None = 0,
+) -> float:
+    """Estimate P(bankroll hits ruin_threshold) over `trials` simulated paths.
+
+    Educational Monte Carlo — not a closed-form gambler's-ruin solution.
+    """
+    if trials < 1:
+        raise ValueError("trials must be >= 1")
+    if ruin_threshold < 0:
+        raise ValueError("ruin_threshold must be >= 0")
+    ruined = 0
+    base = 0 if seed is None else int(seed)
+    for i in range(trials):
+        res = simulate_bankroll(p, b, f, bankroll=bankroll, n=n, seed=base + i)
+        if res.final <= ruin_threshold:
+            ruined += 1
+    return ruined / trials
+
+
 def half_kelly(p: float, b: float) -> float:
     """Convenience: 0.5 × full Kelly fraction."""
     return 0.5 * kelly_fraction(p, b)
