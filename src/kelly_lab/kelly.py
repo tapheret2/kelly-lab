@@ -114,3 +114,14 @@ def half_kelly(p: float, b: float) -> float:
 def quarter_kelly(p: float, b: float) -> float:
     """Conservative 0.25 × full Kelly fraction."""
     return 0.25 * kelly_fraction(p, b)
+
+def eighth_kelly(p: float, b: float) -> float:
+    """Conservative sizing: 0.125 × full Kelly."""
+    return 0.125 * kelly_fraction(p, b)
+
+
+def clamp_fraction(f: float, lo: float = 0.0, hi: float = 1.0) -> float:
+    """Clamp a bet fraction into [lo, hi]."""
+    if lo > hi:
+        raise ValueError("lo must be <= hi")
+    return max(lo, min(hi, float(f)))
