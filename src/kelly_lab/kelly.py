@@ -139,3 +139,12 @@ def fractional_kelly(p: float, b: float, fraction: float = 0.5) -> float:
     if not 0.0 < fraction <= 1.0:
         raise ValueError("fraction must be in (0, 1]")
     return fraction * kelly_fraction(p, b)
+
+
+def edge(p: float, b: float) -> float:
+    """Expected edge per unit stake: p*b - (1-p)."""
+    if not 0.0 < p < 1.0:
+        raise ValueError("p must be in (0, 1)")
+    if b <= 0:
+        raise ValueError("b must be > 0")
+    return p * b - (1.0 - p)
