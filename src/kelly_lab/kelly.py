@@ -125,3 +125,17 @@ def clamp_fraction(f: float, lo: float = 0.0, hi: float = 1.0) -> float:
     if lo > hi:
         raise ValueError("lo must be <= hi")
     return max(lo, min(hi, float(f)))
+
+
+def geometric_growth(path: list[float]) -> float:
+    """Terminal / initial bankroll ratio from a simulation path."""
+    if not path or path[0] <= 0:
+        return 0.0
+    return float(path[-1]) / float(path[0])
+
+
+def fractional_kelly(p: float, b: float, fraction: float = 0.5) -> float:
+    """Scale full Kelly by an arbitrary fraction in (0, 1]."""
+    if not 0.0 < fraction <= 1.0:
+        raise ValueError("fraction must be in (0, 1]")
+    return fraction * kelly_fraction(p, b)

@@ -7,6 +7,8 @@ from .kelly import (
     expected_log_growth,
     simulate_bankroll,
     ruin_probability,
+    fractional_kelly,
+    geometric_growth,
 )
 
 __all__ = [
@@ -18,5 +20,7 @@ __all__ = [
     "expected_log_growth",
     "simulate_bankroll",
     "ruin_probability",
+    "fractional_kelly",
+    "geometric_growth",
 ]
 __version__ = "0.1.3"
