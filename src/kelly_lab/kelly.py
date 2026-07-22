@@ -148,3 +148,18 @@ def edge(p: float, b: float) -> float:
     if b <= 0:
         raise ValueError("b must be > 0")
     return p * b - (1.0 - p)
+
+def break_even_prob(b: float) -> float:
+    """Minimum win probability for zero EV at net odds b."""
+    if b <= 0:
+        raise ValueError("b (net odds) must be > 0")
+    return 1.0 / (1.0 + b)
+
+
+def stake_for_target_profit(target_profit: float, b: float) -> float:
+    """Stake required to win ``target_profit`` at net odds b."""
+    if b <= 0:
+        raise ValueError("b (net odds) must be > 0")
+    if target_profit < 0:
+        raise ValueError("target_profit must be >= 0")
+    return target_profit / b
