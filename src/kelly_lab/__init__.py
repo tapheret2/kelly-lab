@@ -1,4 +1,6 @@
-from .kelly import (
+from .kelly import fractional_stake,
+     american_odds_to_prob,
+     (
     kelly_fraction,
     half_kelly,
     quarter_kelly,
@@ -12,6 +14,8 @@ from .kelly import (
 )
 
 __all__ = [
+    "fractional_stake",
+    "american_odds_to_prob",
     "kelly_fraction",
     "half_kelly",
     "quarter_kelly",

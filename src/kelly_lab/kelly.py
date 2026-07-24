@@ -163,3 +163,20 @@ def stake_for_target_profit(target_profit: float, b: float) -> float:
     if target_profit < 0:
         raise ValueError("target_profit must be >= 0")
     return target_profit / b
+
+
+def american_odds_to_prob(odds: float) -> float:
+    """Implied probability from American odds (no vig adjustment)."""
+    if odds == 0:
+        raise ValueError("odds must be non-zero")
+    if odds > 0:
+        return 100.0 / (odds + 100.0)
+    return (-odds) / ((-odds) + 100.0)
+
+
+def fractional_stake(bankroll: float, fraction: float) -> float:
+    """Stake size as a fraction of bankroll (clamped to [0, 1])."""
+    if bankroll < 0:
+        raise ValueError("bankroll must be non-negative")
+    f = max(0.0, min(1.0, float(fraction)))
+    return bankroll * f
